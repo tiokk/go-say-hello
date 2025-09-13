@@ -1,0 +1,35 @@
+name: Otomatisasi Rilis
+
+# Trigger workflow ini saat ada push ke tag yang namanya dimulai dengan 'v'
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  buat_rilis:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Kode
+        uses: actions/checkout@v4
+      
+      # Membuat rilis di GitHub dari tag yang baru di-push
+      - name: Buat Rilis
+        uses: softprops/action-gh-release@v1
+        with:
+          # Menggunakan judul rilis yang sama dengan nama tag
+          name: Rilis ${{ github.ref_name }}
+          # Menambahkan catatan rilis otomatis
+          body: |
+            ## Catatan Rilis
+            
+            Terima kasih telah menggunakan aplikasi kami!
+            
+            Ini adalah rilis otomatis dari tag ${{ github.ref_name }}.
+            
+            ### Apa yang Baru?
+            
+            * Tambahkan daftar fitur atau perbaikan di sini.
+        env:
+
